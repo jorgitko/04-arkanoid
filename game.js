@@ -109,7 +109,24 @@ function update() {
   if (gameState.state !== STATES.PLAYING) {
     return;
   }
-  // TODO: actualizar lógica cuando jugando
+
+  // Movimiento paddle
+  if (keys.left) {
+    paddle.x -= paddle.speed;
+  }
+  if (keys.right) {
+    paddle.x += paddle.speed;
+  }
+
+  // Limitar paddle a bordes canvas
+  if (paddle.x < 0) {
+    paddle.x = 0;
+  }
+  if (paddle.x + paddle.width > CANVAS_WIDTH) {
+    paddle.x = CANVAS_WIDTH - paddle.width;
+  }
+
+  // TODO: actualizar pelota, colisiones
 }
 
 function render() {
@@ -176,6 +193,23 @@ document.addEventListener('keydown', (e) => {
 
   if (e.code === 'KeyR' && (gameState.state === STATES.GAMEOVER || gameState.state === STATES.WIN)) {
     restart();
+  }
+
+  // Movimiento paddle
+  if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
+    keys.left = true;
+  }
+  if (e.code === 'ArrowRight' || e.code === 'KeyD') {
+    keys.right = true;
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
+    keys.left = false;
+  }
+  if (e.code === 'ArrowRight' || e.code === 'KeyD') {
+    keys.right = false;
   }
 });
 
