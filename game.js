@@ -56,8 +56,8 @@ const ball = {
   vy: -3,
   speed: 4,
   baseSpeed: 4,
-  minSpeed: 2.4,
-  maxSpeed: 8,
+  minSpeed: 2.8,
+  maxSpeed: 7.2,
   active: true
 };
 
@@ -329,6 +329,9 @@ function drawHUD() {
   ctx.textAlign = 'left';
   ctx.fillText('Score: ' + gameState.score, 10, 25);
 
+  ctx.textAlign = 'center';
+  ctx.fillText('Level ' + gameState.currentLevel, CANVAS_WIDTH / 2, 25);
+
   ctx.textAlign = 'right';
   ctx.fillText('Lives: ' + gameState.lives, CANVAS_WIDTH - 10, 25);
 }
@@ -370,8 +373,8 @@ function initLevel() {
   // Ajustar velocidad base según nivel
   ball.baseSpeed = LEVEL_CONFIG.baseSpeed * LEVEL_CONFIG.speedMultipliers[gameState.currentLevel - 1];
   ball.speed = ball.baseSpeed;
-  ball.minSpeed = ball.baseSpeed * 0.6;
-  ball.maxSpeed = ball.baseSpeed * 2.0;
+  ball.minSpeed = ball.baseSpeed * 0.7; // Ajustado: evita pelota muy lenta
+  ball.maxSpeed = ball.baseSpeed * 1.8; // Ajustado: reduce extremo superior en nivel 3
 
   // Resetear posiciones
   paddle.x = CANVAS_WIDTH / 2 - 60;

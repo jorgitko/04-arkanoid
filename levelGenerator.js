@@ -7,14 +7,21 @@ const BLOCK_HEIGHT = 16;
 const PATTERNS = {
   circle: function(centerX, centerY, radius, blockCount) {
     const blocks = [];
-    const angleStep = (Math.PI * 2) / blockCount;
+    const rings = 5; // Múltiples anillos concéntricos
+    const blocksPerRing = Math.floor(blockCount / rings);
 
-    for (let i = 0; i < blockCount; i++) {
-      const angle = i * angleStep;
-      const x = centerX + Math.cos(angle) * radius - BLOCK_WIDTH / 2;
-      const y = centerY + Math.sin(angle) * radius - BLOCK_HEIGHT / 2;
+    for (let ring = 0; ring < rings; ring++) {
+      const r = (radius / rings) * (ring + 1);
+      const blocksInRing = ring === rings - 1 ? blockCount - (blocks.length) : blocksPerRing;
+      const angleStep = (Math.PI * 2) / blocksInRing;
 
-      blocks.push({ x, y, width: BLOCK_WIDTH, height: BLOCK_HEIGHT, alive: true });
+      for (let i = 0; i < blocksInRing; i++) {
+        const angle = i * angleStep;
+        const x = centerX + Math.cos(angle) * r - BLOCK_WIDTH / 2;
+        const y = centerY + Math.sin(angle) * r - BLOCK_HEIGHT / 2;
+
+        blocks.push({ x, y, width: BLOCK_WIDTH, height: BLOCK_HEIGHT, alive: true });
+      }
     }
 
     return blocks;
@@ -122,7 +129,7 @@ const PATTERNS = {
 
   spiral: function(centerX, centerY, radius, blockCount) {
     const blocks = [];
-    const turns = 4;
+    const turns = 3; // Reducido a 3 para mayor densidad
     const angleStep = (Math.PI * 2 * turns) / blockCount;
     const radiusStep = radius / blockCount;
 
@@ -187,24 +194,38 @@ function generateLevel(levelNumber) {
   const randomPattern = patternNames[Math.floor(Math.random() * patternNames.length)];
 
   // Parámetros centrados en canvas 800×600
-  // Área segura: 80% superior (600 * 0.8 = 480px), centrado en y=240
+  // Área segura: 80% superior (600 * 0.8 = 480px), márgenes 20px laterales
   const centerX = 400;
   const centerY = 200;
   const size = 150;
+  const minX = 20;
+  const maxX = 780;
+  const minY = 20;
   const maxY = 480; // 20% inferior (120px) libre
 
   let blocks = PATTERNS[randomPattern](centerX, centerY, size, LEVEL_CONFIG.blocksPerLevel);
 
-  // Filtrar bloques que exceden límite inferior
-  blocks = blocks.filter(block => block.y + block.height <= maxY);
+  // Filtrar bloques fuera de límites
+  blocks = blocks.filter(block =>
+    block.x >= minX &&
+    block.x + block.width <= maxX &&
+    block.y >= minY &&
+    block.y + block.height <= maxY
+  );
 
-  // Si faltan bloques por filtrado, regenerar con patrón diferente o ajustar
-  while (blocks.length < LEVEL_CONFIG.blocksPerLevel * 0.95) {
-    // Regenerar con mismo patrón pero centerY más arriba
-    const adjustedCenterY = centerY - 50;
-    blocks = PATTERNS[randomPattern](centerX, adjustedCenterY, size, LEVEL_CONFIG.blocksPerLevel);
-    blocks = blocks.filter(block => block.y + block.height <= maxY);
-    break; // Evitar loop infinito
+  // Si faltan bloques (>5% filtrados), ajustar patrón
+  if (blocks.length < LEVEL_CONFIG.blocksPerLevel * 0.95) {
+    // Regenerar con tamaño reducido para caber mejor
+    const adjustedSize = size * 0.8;
+    const adjustedCenterY = centerY - 30;
+    blocks = PATTERNS[randomPattern](centerX, adjustedCenterY, adjustedSize, LEVEL_CONFIG.blocksPerLevel);
+
+    blocks = blocks.filter(block =>
+      block.x >= minX &&
+      block.x + block.width <= maxX &&
+      block.y >= minY &&
+      block.y + block.height <= maxY
+    );
   }
 
   return assignBalancedColors(blocks);

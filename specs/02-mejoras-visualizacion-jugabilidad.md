@@ -1,6 +1,6 @@
 # SPEC 02 — Mejoras en Visualización, Jugabilidad y Sistema de Niveles
 
-**Estado:** Approved  
+**Estado:** Implemented  
 **Depende de:** SPEC 01  
 **Fecha:** 2026-09-11  
 **Objetivo:** Agregar explosiones animadas, audio de colisiones, velocidad variable de pelota, ajustar dimensiones para canvas 800×600 e implementar sistema de 3 niveles con patrones geométricos aleatorios y dificultad creciente.
@@ -266,40 +266,40 @@ function assignBalancedColors(blocks) {
 ## Acceptance Criteria
 
 ### Mejoras Visuales y Audio
-- [ ] Canvas tiene dimensiones 800×600px
-- [ ] Paddle tiene ancho de 120px y se renderiza correctamente
-- [ ] Al destruir bloque aparece animación de explosión de 4 frames en color correspondiente
-- [ ] Explosión dura ~150ms y desaparece automáticamente
-- [ ] Audio `ball-bounce.mp3` suena al rebotar pelota en paddle y paredes
-- [ ] Audio `break-sound.mp3` suena al destruir cada bloque
-- [ ] No hay errores de audio (clips superpuestos aceptables, sin crashes)
+- [x] Canvas tiene dimensiones 800×600px
+- [x] Paddle tiene ancho de 120px y se renderiza correctamente
+- [x] Al destruir bloque aparece animación de explosión de 4 frames en color correspondiente
+- [x] Explosión dura ~150ms y desaparece automáticamente
+- [x] Audio `ball-bounce.mp3` suena al rebotar pelota en paddle y paredes
+- [x] Audio `break-sound.mp3` suena al destruir cada bloque
+- [x] No hay errores de audio (clips superpuestos aceptables, sin crashes)
 
 ### Velocidad Variable
-- [ ] Pelota acelera cuando impacta bordes del paddle (offset > 60%)
-- [ ] Pelota desacelera cuando impacta centro del paddle (offset < 30%)
-- [ ] Velocidad pelota nunca excede `maxSpeed` ni baja de `minSpeed`
+- [x] Pelota acelera cuando impacta bordes del paddle (offset > 60%)
+- [x] Pelota desacelera cuando impacta centro del paddle (offset < 30%)
+- [x] Velocidad pelota nunca excede `maxSpeed` ni baja de `minSpeed`
 
 ### Sistema de Niveles
-- [ ] Juego inicia en nivel 1 con patrón geométrico aleatorio
-- [ ] Cada nivel genera exactamente 200 bloques
-- [ ] Distribución de colores es balanceada (no todos red, no todos green)
-- [ ] Patrones son jugables (bloques dentro del canvas, accesibles por pelota)
-- [ ] Al destruir todos los bloques del nivel 1 aparece "Level 1 Complete! Press SPACE for Next Level"
-- [ ] Presionar SPACE en LEVEL_COMPLETE avanza a nivel 2
-- [ ] Nivel 2 tiene patrón geométrico (puede repetir, probabilidad baja)
-- [ ] Pelota en nivel 2 es ~10% más rápida que velocidad base del nivel 1
-- [ ] Vidas no se resetean entre niveles (acumulativas)
-- [ ] Score acumula entre niveles (score total suma los 3 niveles)
-- [ ] Al completar nivel 2 aparece "Level 2 Complete! Press SPACE for Next Level"
-- [ ] Nivel 3 tiene patrón geométrico
-- [ ] Pelota en nivel 3 es ~20% más rápida que velocidad base del nivel 1
-- [ ] Al destruir todos los bloques del nivel 3 aparece "You Win! Game Complete! Press R to Restart"
-- [ ] Tecla R en pantalla WIN resetea juego a nivel 1, score 0, vidas 3
-- [ ] Si vidas llegan a 0 en cualquier nivel aparece GAMEOVER (no se puede continuar)
+- [x] Juego inicia en nivel 1 con patrón geométrico aleatorio
+- [x] Cada nivel genera exactamente 200 bloques
+- [x] Distribución de colores es balanceada (no todos red, no todos green)
+- [x] Patrones son jugables (bloques dentro del canvas, accesibles por pelota)
+- [x] Al destruir todos los bloques del nivel 1 aparece "Level 1 Complete! Press SPACE for Next Level"
+- [x] Presionar SPACE en LEVEL_COMPLETE avanza a nivel 2
+- [x] Nivel 2 tiene patrón geométrico (puede repetir, probabilidad baja)
+- [x] Pelota en nivel 2 es ~10% más rápida que velocidad base del nivel 1
+- [x] Vidas no se resetean entre niveles (acumulativas)
+- [x] Score acumula entre niveles (score total suma los 3 niveles)
+- [x] Al completar nivel 2 aparece "Level 2 Complete! Press SPACE for Next Level"
+- [x] Nivel 3 tiene patrón geométrico
+- [x] Pelota en nivel 3 es ~20% más rápida que velocidad base del nivel 1
+- [x] Al destruir todos los bloques del nivel 3 aparece "You Win! Game Complete! Press R to Restart"
+- [x] Tecla R en pantalla WIN resetea juego a nivel 1, score 0, vidas 3
+- [x] Si vidas llegan a 0 en cualquier nivel aparece GAMEOVER (no se puede continuar)
 
 ### Integración
-- [ ] Juego mantiene todas funcionalidades de SPEC 01 (vidas, score, estados, pausa)
-- [ ] Partida completa jugable inicio → victoria nivel 3 sin bugs visuales o de física
+- [x] Juego mantiene todas funcionalidades de SPEC 01 (vidas, score, estados, pausa)
+- [x] Partida completa jugable inicio → victoria nivel 3 sin bugs visuales o de física
 
 ---
 
