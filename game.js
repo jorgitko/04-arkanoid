@@ -53,6 +53,57 @@ const keys = {
   right: false
 };
 
+// Block config
+const BLOCK_WIDTH = 32;
+const BLOCK_HEIGHT = 16;
+const BLOCK_ROWS = 7;
+const BLOCK_COLS = 10;
+const BLOCK_OFFSET_X = 80;
+const BLOCK_OFFSET_Y = 60;
+
+const BLOCK_COLORS = {
+  red: 10,
+  yellow: 5,
+  cyan: 3,
+  gray: 1
+};
+
+function createBlocks() {
+  const blocks = [];
+
+  for (let row = 0; row < BLOCK_ROWS; row++) {
+    for (let col = 0; col < BLOCK_COLS; col++) {
+      let color, points;
+
+      if (row < 2) {
+        color = 'red';
+        points = BLOCK_COLORS.red;
+      } else if (row < 4) {
+        color = 'yellow';
+        points = BLOCK_COLORS.yellow;
+      } else if (row < 6) {
+        color = 'cyan';
+        points = BLOCK_COLORS.cyan;
+      } else {
+        color = 'gray';
+        points = BLOCK_COLORS.gray;
+      }
+
+      blocks.push({
+        x: BLOCK_OFFSET_X + col * BLOCK_WIDTH,
+        y: BLOCK_OFFSET_Y + row * BLOCK_HEIGHT,
+        width: BLOCK_WIDTH,
+        height: BLOCK_HEIGHT,
+        color: color,
+        points: points,
+        alive: true
+      });
+    }
+  }
+
+  return blocks;
+}
+
 // Game loop
 function update() {
   if (gameState.state !== STATES.PLAYING) {
@@ -104,7 +155,7 @@ function restart() {
   gameState.score = 0;
   gameState.lives = 3;
   gameState.state = STATES.START;
-  gameState.blocks = [];
+  gameState.blocks = createBlocks();
 
   // Resetear paddle
   paddle.x = CANVAS_WIDTH / 2 - 81;
@@ -115,8 +166,6 @@ function restart() {
   ball.vx = 3;
   ball.vy = -3;
   ball.active = true;
-
-  // TODO: regenerar bloques (paso 5)
 }
 
 // Event listeners
@@ -132,5 +181,6 @@ document.addEventListener('keydown', (e) => {
 
 // Inicializar juego
 loadSpritesheet(() => {
+  gameState.blocks = createBlocks();
   startGameLoop();
 });
