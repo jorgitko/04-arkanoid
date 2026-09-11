@@ -180,7 +180,11 @@ function update() {
     }
   }
 
-  // TODO: verificar condición victoria
+  // Verificar condición victoria
+  const allBlocksDestroyed = gameState.blocks.every(block => !block.alive);
+  if (allBlocksDestroyed) {
+    gameState.state = STATES.WIN;
+  }
 }
 
 function render() {
