@@ -197,12 +197,44 @@ function render() {
   } else if (gameState.state === STATES.WIN) {
     drawCenteredText('You Win!', CANVAS_HEIGHT / 2 - 20);
     drawCenteredText('Press R to Restart', CANVAS_HEIGHT / 2 + 20);
-  } else if (gameState.state === STATES.PAUSED) {
-    // TODO: renderizar juego + texto PAUSED
-    drawCenteredText('PAUSED', CANVAS_HEIGHT / 2);
-  } else if (gameState.state === STATES.PLAYING) {
-    // TODO: renderizar juego completo
+  } else if (gameState.state === STATES.PAUSED || gameState.state === STATES.PLAYING) {
+    renderGame();
+
+    if (gameState.state === STATES.PAUSED) {
+      drawCenteredText('PAUSED', CANVAS_HEIGHT / 2);
+    }
   }
+}
+
+function renderGame() {
+  // Renderizar bloques vivos
+  for (let i = 0; i < gameState.blocks.length; i++) {
+    const block = gameState.blocks[i];
+    if (block.alive) {
+      drawSprite(ctx, 'blocks.' + block.color, block.x, block.y, block.width, block.height);
+    }
+  }
+
+  // Renderizar paddle
+  drawSprite(ctx, 'paddle', paddle.x, paddle.y, paddle.width, paddle.height);
+
+  // Renderizar ball
+  if (ball.active) {
+    drawSprite(ctx, 'ball', ball.x, ball.y, ball.width, ball.height);
+  }
+
+  // Renderizar HUD
+  drawHUD();
+}
+
+function drawHUD() {
+  ctx.fillStyle = '#fff';
+  ctx.font = '20px "Courier New"';
+  ctx.textAlign = 'left';
+  ctx.fillText('Score: ' + gameState.score, 10, 25);
+
+  ctx.textAlign = 'right';
+  ctx.fillText('Lives: ' + gameState.lives, CANVAS_WIDTH - 10, 25);
 }
 
 function drawCenteredText(text, y) {
