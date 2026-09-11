@@ -126,7 +126,33 @@ function update() {
     paddle.x = CANVAS_WIDTH - paddle.width;
   }
 
-  // TODO: actualizar pelota, colisiones
+  // Física pelota
+  if (ball.active) {
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+
+    // Rebote paredes laterales
+    if (ball.x <= 0 || ball.x + ball.width >= CANVAS_WIDTH) {
+      ball.vx = -ball.vx;
+    }
+
+    // Rebote techo
+    if (ball.y <= 0) {
+      ball.vy = -ball.vy;
+    }
+
+    // Perder pelota (sale por abajo)
+    if (ball.y > CANVAS_HEIGHT) {
+      gameState.lives--;
+      if (gameState.lives === 0) {
+        gameState.state = STATES.GAMEOVER;
+      } else {
+        respawnBall();
+      }
+    }
+  }
+
+  // TODO: colisiones paddle-pelota, pelota-bloques
 }
 
 function render() {
@@ -168,6 +194,14 @@ function startGameLoop() {
   gameLoop();
 }
 
+function respawnBall() {
+  ball.x = CANVAS_WIDTH / 2 - 8;
+  ball.y = CANVAS_HEIGHT / 2;
+  ball.vx = 3;
+  ball.vy = -3;
+  ball.active = true;
+}
+
 function restart() {
   gameState.score = 0;
   gameState.lives = 3;
@@ -178,11 +212,7 @@ function restart() {
   paddle.x = CANVAS_WIDTH / 2 - 81;
 
   // Resetear ball
-  ball.x = CANVAS_WIDTH / 2 - 8;
-  ball.y = CANVAS_HEIGHT / 2;
-  ball.vx = 3;
-  ball.vy = -3;
-  ball.active = true;
+  respawnBall();
 }
 
 // Event listeners
