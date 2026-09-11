@@ -285,6 +285,15 @@ document.addEventListener('keydown', (e) => {
     restart();
   }
 
+  // Toggle pausa con ESC
+  if (e.code === 'Escape') {
+    if (gameState.state === STATES.PLAYING) {
+      gameState.state = STATES.PAUSED;
+    } else if (gameState.state === STATES.PAUSED) {
+      gameState.state = STATES.PLAYING;
+    }
+  }
+
   // Movimiento paddle
   if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
     keys.left = true;
