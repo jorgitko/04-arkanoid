@@ -1,6 +1,6 @@
 # SPEC 01 — MVP Jugable
 
-**Estado:** Approved  
+**Estado:** Implemented  
 **Depende de:** —  
 **Fecha:** 2026-09-11  
 **Objetivo:** Implementar versión jugable de Arkanoid con un nivel, vidas, puntuación y estados de juego completos.
