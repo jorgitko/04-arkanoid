@@ -5,8 +5,8 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 // Dimensiones
-const CANVAS_WIDTH = 640;
-const CANVAS_HEIGHT = 480;
+const CANVAS_WIDTH = 800;
+const CANVAS_HEIGHT = 600;
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 
