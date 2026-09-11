@@ -143,6 +143,17 @@ function update() {
         block.alive = false;
         gameState.score += block.points;
         ball.vy = -ball.vy;
+
+        // Crear explosión
+        explosions.push({
+          x: block.x,
+          y: block.y,
+          color: block.color,
+          frameIndex: 0,
+          elapsed: 0,
+          duration: 150
+        });
+
         break;
       }
     }
@@ -152,6 +163,20 @@ function update() {
   const allBlocksDestroyed = gameState.blocks.every(block => !block.alive);
   if (allBlocksDestroyed) {
     gameState.state = STATES.WIN;
+  }
+
+  // Actualizar explosiones
+  for (let i = explosions.length - 1; i >= 0; i--) {
+    const explosion = explosions[i];
+    explosion.elapsed += 16; // ~16ms por frame (60fps)
+
+    // Avanzar frame cada ~37.5ms (150ms / 4 frames)
+    explosion.frameIndex = Math.floor(explosion.elapsed / 37.5);
+
+    // Eliminar explosión completada
+    if (explosion.elapsed >= explosion.duration) {
+      explosions.splice(i, 1);
+    }
   }
 }
 
@@ -184,6 +209,23 @@ function renderGame() {
     const block = gameState.blocks[i];
     if (block.alive) {
       drawSprite(ctx, 'block_' + block.color, block.x, block.y, block.width, block.height);
+    }
+  }
+
+  // Renderizar explosiones
+  for (let i = 0; i < explosions.length; i++) {
+    const explosion = explosions[i];
+    const frameIndex = Math.min(explosion.frameIndex, 3); // Clamp a 0-3
+
+    if (EXPLOSION_FRAMES[explosion.color] && EXPLOSION_FRAMES[explosion.color][frameIndex]) {
+      drawFrame(
+        ctx,
+        EXPLOSION_FRAMES[explosion.color][frameIndex],
+        explosion.x,
+        explosion.y,
+        32,
+        16
+      );
     }
   }
 
