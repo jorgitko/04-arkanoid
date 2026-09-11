@@ -70,6 +70,42 @@ const keys = {
 // Explosiones
 const explosions = [];
 
+// Audio - Pool de instancias para reducir latency
+const soundPools = {
+  bounce: [],
+  break: []
+};
+
+// Pre-cargar pool de audio
+function initAudio() {
+  // Crear 5 instancias de cada sonido
+  for (let i = 0; i < 5; i++) {
+    const bounceAudio = new Audio('assets/sounds/ball-bounce.mp3');
+    bounceAudio.preload = 'auto';
+    bounceAudio.volume = 0.6;
+    soundPools.bounce.push(bounceAudio);
+
+    const breakAudio = new Audio('assets/sounds/break-sound.mp3');
+    breakAudio.preload = 'auto';
+    breakAudio.volume = 0.6;
+    soundPools.break.push(breakAudio);
+  }
+}
+
+function playSound(soundName) {
+  const pool = soundPools[soundName];
+  if (!pool) return;
+
+  // Buscar instancia disponible (no reproduciendo)
+  let audio = pool.find(a => a.paused || a.ended || a.currentTime === 0);
+
+  // Si todas están ocupadas, usar la primera
+  if (!audio) audio = pool[0];
+
+  audio.currentTime = 0;
+  audio.play().catch(() => {}); // Ignorar error si user no ha interactuado
+}
+
 // Block config ahora manejado por levelGenerator.js
 
 function checkAABB(a, b) {
@@ -109,11 +145,13 @@ function update() {
     // Rebote paredes laterales
     if (ball.x <= 0 || ball.x + ball.width >= CANVAS_WIDTH) {
       ball.vx = -ball.vx;
+      playSound('bounce');
     }
 
     // Rebote techo
     if (ball.y <= 0) {
       ball.vy = -ball.vy;
+      playSound('bounce');
     }
 
     // Perder pelota (sale por abajo)
@@ -134,6 +172,8 @@ function update() {
       const hitPos = (ball.x + ball.width / 2) - (paddle.x + paddle.width / 2);
       const normalizedHit = hitPos / (paddle.width / 2);
       ball.vx = normalizedHit * 4;
+
+      playSound('bounce');
     }
 
     // Colisión pelota-bloques
@@ -153,6 +193,8 @@ function update() {
           elapsed: 0,
           duration: 150
         });
+
+        playSound('break');
 
         break;
       }
@@ -350,6 +392,7 @@ document.addEventListener('keyup', (e) => {
 
 // Inicializar juego
 loadSpritesheet(() => {
+  initAudio();
   initLevel();
   startGameLoop();
 });
