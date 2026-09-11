@@ -29,9 +29,9 @@ const gameState = {
 
 // Paddle
 const paddle = {
-  x: CANVAS_WIDTH / 2 - 81,
+  x: CANVAS_WIDTH / 2 - 60,
   y: CANVAS_HEIGHT - 40,
-  width: 162,
+  width: 120,
   height: 14,
   speed: 6
 };
