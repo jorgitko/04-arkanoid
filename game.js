@@ -16,7 +16,16 @@ const STATES = {
   PLAYING: 'PLAYING',
   PAUSED: 'PAUSED',
   GAMEOVER: 'GAMEOVER',
+  LEVEL_COMPLETE: 'LEVEL_COMPLETE',
   WIN: 'WIN'
+};
+
+// Level configuration
+const LEVEL_CONFIG = {
+  totalLevels: 3,
+  blocksPerLevel: 200,
+  speedMultipliers: [1.0, 1.1, 1.2],
+  baseSpeed: 4
 };
 
 // Game state
@@ -24,7 +33,8 @@ const gameState = {
   state: STATES.START,
   score: 0,
   lives: 3,
-  blocks: []
+  blocks: [],
+  currentLevel: 1
 };
 
 // Paddle
