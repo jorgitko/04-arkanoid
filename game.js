@@ -167,9 +167,20 @@ function update() {
       const normalizedHit = hitPos / (paddle.width / 2);
       ball.vx = normalizedHit * 4;
     }
+
+    // Colisión pelota-bloques
+    for (let i = 0; i < gameState.blocks.length; i++) {
+      const block = gameState.blocks[i];
+      if (block.alive && checkAABB(ball, block)) {
+        block.alive = false;
+        gameState.score += block.points;
+        ball.vy = -ball.vy;
+        break;
+      }
+    }
   }
 
-  // TODO: colisiones pelota-bloques
+  // TODO: verificar condición victoria
 }
 
 function render() {
