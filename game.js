@@ -52,3 +52,31 @@ const keys = {
   left: false,
   right: false
 };
+
+// Game loop
+function update() {
+  // TODO: actualizar lógica según estado
+}
+
+function render() {
+  // Limpiar canvas
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+  // TODO: renderizar según estado
+}
+
+function gameLoop() {
+  update();
+  render();
+  requestAnimationFrame(gameLoop);
+}
+
+function startGameLoop() {
+  gameLoop();
+}
+
+// Inicializar juego
+loadSpritesheet(() => {
+  startGameLoop();
+});
