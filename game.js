@@ -215,7 +215,7 @@ function renderGame() {
   for (let i = 0; i < gameState.blocks.length; i++) {
     const block = gameState.blocks[i];
     if (block.alive) {
-      drawSprite(ctx, 'blocks.' + block.color, block.x, block.y, block.width, block.height);
+      drawSprite(ctx, 'block_' + block.color, block.x, block.y, block.width, block.height);
     }
   }
 

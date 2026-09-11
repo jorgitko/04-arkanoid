@@ -157,22 +157,22 @@ const Block = {
 
 ## Acceptance Criteria
 
-- [ ] `index.html` tiene canvas y carga `game.js` y `assets/spritesheet.js`
-- [ ] Al abrir página aparece estado START con mensaje "Press SPACE to Start"
-- [ ] SPACE inicia juego: paddle y pelota aparecen, pelota se mueve
-- [ ] Flechas izquierda/derecha (o A/D) mueven paddle, no sale de canvas
-- [ ] Pelota rebota en paredes laterales y techo
-- [ ] Pelota rebota en paddle cuando colisiona
-- [ ] Pelota destruye bloques al colisionar, bloque desaparece
-- [ ] Score aumenta según color del bloque destruido
-- [ ] Perder pelota (sale por abajo) resta 1 vida y respawnea pelota
-- [ ] Al llegar a 0 vidas aparece estado GAMEOVER con "Press R to Restart"
-- [ ] Al destruir todos los bloques aparece estado WIN con "You Win! Press R to Restart"
-- [ ] Tecla R en GAMEOVER o WIN resetea juego (score=0, lives=3, bloques regenerados)
-- [ ] ESC pausa/despausa juego, muestra "PAUSED"
-- [ ] HUD muestra score y vidas actuales en todo momento
-- [ ] No hay sonido (silencioso)
-- [ ] Velocidad de pelota constante durante toda la partida
+- [x] `index.html` tiene canvas y carga `game.js` y `assets/spritesheet.js`
+- [x] Al abrir página aparece estado START con mensaje "Press SPACE to Start"
+- [x] SPACE inicia juego: paddle y pelota aparecen, pelota se mueve
+- [x] Flechas izquierda/derecha (o A/D) mueven paddle, no sale de canvas
+- [x] Pelota rebota en paredes laterales y techo
+- [x] Pelota rebota en paddle cuando colisiona
+- [x] Pelota destruye bloques al colisionar, bloque desaparece
+- [x] Score aumenta según color del bloque destruido
+- [x] Perder pelota (sale por abajo) resta 1 vida y respawnea pelota
+- [x] Al llegar a 0 vidas aparece estado GAMEOVER con "Press R to Restart"
+- [x] Al destruir todos los bloques aparece estado WIN con "You Win! Press R to Restart"
+- [x] Tecla R en GAMEOVER o WIN resetea juego (score=0, lives=3, bloques regenerados)
+- [x] ESC pausa/despausa juego, muestra "PAUSED"
+- [x] HUD muestra score y vidas actuales en todo momento
+- [x] No hay sonido (silencioso)
+- [x] Velocidad de pelota constante durante toda la partida
 
 ---
 
