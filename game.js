@@ -104,6 +104,13 @@ function createBlocks() {
   return blocks;
 }
 
+function checkAABB(a, b) {
+  return a.x < b.x + b.width &&
+         a.x + a.width > b.x &&
+         a.y < b.y + b.height &&
+         a.y + a.height > b.y;
+}
+
 // Game loop
 function update() {
   if (gameState.state !== STATES.PLAYING) {
@@ -150,9 +157,19 @@ function update() {
         respawnBall();
       }
     }
+
+    // Colisión pelota-paddle
+    if (checkAABB(ball, paddle)) {
+      ball.vy = -Math.abs(ball.vy);
+
+      // Ajustar vx según punto de impacto
+      const hitPos = (ball.x + ball.width / 2) - (paddle.x + paddle.width / 2);
+      const normalizedHit = hitPos / (paddle.width / 2);
+      ball.vx = normalizedHit * 4;
+    }
   }
 
-  // TODO: colisiones paddle-pelota, pelota-bloques
+  // TODO: colisiones pelota-bloques
 }
 
 function render() {
