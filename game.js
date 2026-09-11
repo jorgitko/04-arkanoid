@@ -229,10 +229,18 @@ function update() {
     }
   }
 
-  // Verificar condición victoria
+  // Verificar condición victoria o nivel completado
   const allBlocksDestroyed = gameState.blocks.every(block => !block.alive);
   if (allBlocksDestroyed) {
-    gameState.state = STATES.WIN;
+    if (gameState.currentLevel < LEVEL_CONFIG.totalLevels) {
+      // Niveles 1-2: pantalla intermedia
+      gameState.state = STATES.LEVEL_COMPLETE;
+      ball.active = false;
+    } else {
+      // Nivel 3: victoria final
+      gameState.state = STATES.WIN;
+      ball.active = false;
+    }
   }
 
   // Actualizar explosiones
@@ -261,6 +269,10 @@ function render() {
   } else if (gameState.state === STATES.GAMEOVER) {
     drawCenteredText('GAME OVER', CANVAS_HEIGHT / 2 - 20);
     drawCenteredText('Press R to Restart', CANVAS_HEIGHT / 2 + 20);
+  } else if (gameState.state === STATES.LEVEL_COMPLETE) {
+    renderGame();
+    drawCenteredText(`Level ${gameState.currentLevel} Complete!`, CANVAS_HEIGHT / 2 - 20);
+    drawCenteredText('Press SPACE for Next Level', CANVAS_HEIGHT / 2 + 20);
   } else if (gameState.state === STATES.WIN) {
     drawCenteredText('You Win!', CANVAS_HEIGHT / 2 - 20);
     drawCenteredText('Press R to Restart', CANVAS_HEIGHT / 2 + 20);
@@ -383,6 +395,12 @@ function restart() {
 // Event listeners
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Space' && gameState.state === STATES.START) {
+    initLevel();
+    gameState.state = STATES.PLAYING;
+  }
+
+  if (e.code === 'Space' && gameState.state === STATES.LEVEL_COMPLETE) {
+    gameState.currentLevel++;
     initLevel();
     gameState.state = STATES.PLAYING;
   }
