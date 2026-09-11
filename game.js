@@ -108,6 +108,15 @@ function playSound(soundName) {
 
 // Block config ahora manejado por levelGenerator.js
 
+// Helper para normalizar velocidad de pelota a ball.speed
+function normalizeBallSpeed() {
+  const magnitude = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+  if (magnitude > 0) {
+    ball.vx = (ball.vx / magnitude) * ball.speed;
+    ball.vy = (ball.vy / magnitude) * ball.speed;
+  }
+}
+
 function checkAABB(a, b) {
   return a.x < b.x + b.width &&
          a.x + a.width > b.x &&
@@ -145,12 +154,14 @@ function update() {
     // Rebote paredes laterales
     if (ball.x <= 0 || ball.x + ball.width >= CANVAS_WIDTH) {
       ball.vx = -ball.vx;
+      normalizeBallSpeed();
       playSound('bounce');
     }
 
     // Rebote techo
     if (ball.y <= 0) {
       ball.vy = -ball.vy;
+      normalizeBallSpeed();
       playSound('bounce');
     }
 
@@ -168,10 +179,26 @@ function update() {
     if (checkAABB(ball, paddle)) {
       ball.vy = -Math.abs(ball.vy);
 
-      // Ajustar vx según punto de impacto
-      const hitPos = (ball.x + ball.width / 2) - (paddle.x + paddle.width / 2);
-      const normalizedHit = hitPos / (paddle.width / 2);
-      ball.vx = normalizedHit * 4;
+      // Calcular offset del impacto (-1 a 1, siendo 0 el centro)
+      const paddleCenter = paddle.x + paddle.width / 2;
+      const ballCenter = ball.x + ball.width / 2;
+      const offset = (ballCenter - paddleCenter) / (paddle.width / 2);
+
+      // Velocidad variable según offset
+      const absOffset = Math.abs(offset);
+      if (absOffset > 0.6) {
+        // Bordes: acelera 10%
+        ball.speed = Math.min(ball.speed * 1.1, ball.maxSpeed);
+      } else if (absOffset <= 0.3) {
+        // Centro: desacelera 5%
+        ball.speed = Math.max(ball.speed * 0.95, ball.minSpeed);
+      }
+
+      // Ajustar ángulo según punto de impacto
+      ball.vx = offset * ball.speed * 0.7;
+
+      // Normalizar velocidad a ball.speed
+      normalizeBallSpeed();
 
       playSound('bounce');
     }
@@ -183,6 +210,7 @@ function update() {
         block.alive = false;
         gameState.score += block.points;
         ball.vy = -ball.vy;
+        normalizeBallSpeed();
 
         // Crear explosión
         explosions.push({
