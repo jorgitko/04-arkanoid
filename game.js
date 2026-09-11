@@ -274,8 +274,8 @@ function render() {
     drawCenteredText(`Level ${gameState.currentLevel} Complete!`, CANVAS_HEIGHT / 2 - 20);
     drawCenteredText('Press SPACE for Next Level', CANVAS_HEIGHT / 2 + 20);
   } else if (gameState.state === STATES.WIN) {
-    drawCenteredText('You Win!', CANVAS_HEIGHT / 2 - 20);
-    drawCenteredText('Press R to Restart', CANVAS_HEIGHT / 2 + 20);
+    drawCenteredText('You Win! Game Complete!', CANVAS_HEIGHT / 2 - 30);
+    drawCenteredText('Press R to Restart', CANVAS_HEIGHT / 2 + 10);
   } else if (gameState.state === STATES.PAUSED || gameState.state === STATES.PLAYING) {
     renderGame();
 
