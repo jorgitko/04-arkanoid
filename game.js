@@ -55,7 +55,10 @@ const keys = {
 
 // Game loop
 function update() {
-  // TODO: actualizar lógica según estado
+  if (gameState.state !== STATES.PLAYING) {
+    return;
+  }
+  // TODO: actualizar lógica cuando jugando
 }
 
 function render() {
@@ -63,7 +66,28 @@ function render() {
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-  // TODO: renderizar según estado
+  // Renderizar según estado
+  if (gameState.state === STATES.START) {
+    drawCenteredText('Press SPACE to Start', CANVAS_HEIGHT / 2);
+  } else if (gameState.state === STATES.GAMEOVER) {
+    drawCenteredText('GAME OVER', CANVAS_HEIGHT / 2 - 20);
+    drawCenteredText('Press R to Restart', CANVAS_HEIGHT / 2 + 20);
+  } else if (gameState.state === STATES.WIN) {
+    drawCenteredText('You Win!', CANVAS_HEIGHT / 2 - 20);
+    drawCenteredText('Press R to Restart', CANVAS_HEIGHT / 2 + 20);
+  } else if (gameState.state === STATES.PAUSED) {
+    // TODO: renderizar juego + texto PAUSED
+    drawCenteredText('PAUSED', CANVAS_HEIGHT / 2);
+  } else if (gameState.state === STATES.PLAYING) {
+    // TODO: renderizar juego completo
+  }
+}
+
+function drawCenteredText(text, y) {
+  ctx.fillStyle = '#fff';
+  ctx.font = '24px "Courier New"';
+  ctx.textAlign = 'center';
+  ctx.fillText(text, CANVAS_WIDTH / 2, y);
 }
 
 function gameLoop() {
@@ -75,6 +99,36 @@ function gameLoop() {
 function startGameLoop() {
   gameLoop();
 }
+
+function restart() {
+  gameState.score = 0;
+  gameState.lives = 3;
+  gameState.state = STATES.START;
+  gameState.blocks = [];
+
+  // Resetear paddle
+  paddle.x = CANVAS_WIDTH / 2 - 81;
+
+  // Resetear ball
+  ball.x = CANVAS_WIDTH / 2 - 8;
+  ball.y = CANVAS_HEIGHT / 2;
+  ball.vx = 3;
+  ball.vy = -3;
+  ball.active = true;
+
+  // TODO: regenerar bloques (paso 5)
+}
+
+// Event listeners
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' && gameState.state === STATES.START) {
+    gameState.state = STATES.PLAYING;
+  }
+
+  if (e.code === 'KeyR' && (gameState.state === STATES.GAMEOVER || gameState.state === STATES.WIN)) {
+    restart();
+  }
+});
 
 // Inicializar juego
 loadSpritesheet(() => {
