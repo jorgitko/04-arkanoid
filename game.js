@@ -423,6 +423,15 @@ function renderGame() {
   // Renderizar paddle
   drawSprite(ctx, 'paddle', paddle.x, paddle.y, paddle.width, paddle.height);
 
+  // Renderizar cañones si disparadores activos
+  if (paddle.hasProjectiles) {
+    ctx.fillStyle = '#ff9900';
+    // Cañón izquierdo
+    ctx.fillRect(paddle.x + 8, paddle.y - 6, 6, 6);
+    // Cañón derecho
+    ctx.fillRect(paddle.x + paddle.width - 14, paddle.y - 6, 6, 6);
+  }
+
   // Renderizar ball
   if (ball.active) {
     drawSprite(ctx, 'ball', ball.x, ball.y, ball.width, ball.height);
