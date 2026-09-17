@@ -293,6 +293,19 @@ function update() {
       gameState.powerups.splice(i, 1);
     }
   }
+
+  // Colisión powerup-paddle
+  for (let i = gameState.powerups.length - 1; i >= 0; i--) {
+    const powerup = gameState.powerups[i];
+    if (checkAABB(powerup, paddle)) {
+      // Activar disparadores por 8 segundos
+      const now = performance.now();
+      paddle.hasProjectiles = true;
+      paddle.projectileEndTime = now + 8000;
+      paddle.projectileLastShot = now;
+      gameState.powerups.splice(i, 1);
+    }
+  }
 }
 
 function render() {
@@ -415,12 +428,19 @@ function initLevel() {
 
   // Resetear posiciones
   paddle.x = CANVAS_WIDTH / 2 - 60;
+  paddle.hasProjectiles = false;
+  paddle.projectileEndTime = 0;
+  paddle.projectileLastShot = 0;
 
   ball.x = CANVAS_WIDTH / 2 - 8;
   ball.y = CANVAS_HEIGHT / 2;
   ball.vx = ball.baseSpeed * 0.707; // 45 grados
   ball.vy = -ball.baseSpeed * 0.707;
   ball.active = true;
+
+  // Limpiar powerups y projectiles
+  gameState.powerups = [];
+  gameState.projectiles = [];
 }
 
 function restart() {
