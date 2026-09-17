@@ -425,6 +425,18 @@ function renderGame() {
     }
   }
 
+  // Renderizar powerups
+  for (let i = 0; i < gameState.powerups.length; i++) {
+    const powerup = gameState.powerups[i];
+    drawSprite(ctx, 'powerup', powerup.x, powerup.y, powerup.width, powerup.height);
+  }
+
+  // Renderizar projectiles
+  for (let i = 0; i < gameState.projectiles.length; i++) {
+    const projectile = gameState.projectiles[i];
+    drawSprite(ctx, 'projectile', projectile.x, projectile.y, projectile.width, projectile.height);
+  }
+
   // Renderizar paddle
   drawSprite(ctx, 'paddle', paddle.x, paddle.y, paddle.width, paddle.height);
 
