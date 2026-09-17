@@ -343,6 +343,28 @@ function update() {
       gameState.projectiles.splice(i, 1);
     }
   }
+
+  // Colisión projectile-bloque
+  for (let i = gameState.projectiles.length - 1; i >= 0; i--) {
+    const projectile = gameState.projectiles[i];
+    for (let j = 0; j < gameState.blocks.length; j++) {
+      const block = gameState.blocks[j];
+      if (block.alive && checkAABB(projectile, block)) {
+        block.alive = false;
+        gameState.score += block.points;
+        explosions.push({
+          x: block.x,
+          y: block.y,
+          color: block.color,
+          frameIndex: 0,
+          elapsed: 0,
+          duration: 150
+        });
+        gameState.projectiles.splice(i, 1);
+        break;
+      }
+    }
+  }
 }
 
 function render() {
