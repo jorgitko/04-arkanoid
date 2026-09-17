@@ -365,6 +365,11 @@ function update() {
       }
     }
   }
+
+  // Desactivar disparadores después 8 segundos
+  if (paddle.hasProjectiles && performance.now() >= paddle.projectileEndTime) {
+    paddle.hasProjectiles = false;
+  }
 }
 
 function render() {
