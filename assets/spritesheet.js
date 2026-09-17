@@ -13,6 +13,8 @@ const EXPLOSION_DURATION = 150;
 const SPRITES = {
   paddle: { sx: 32, sy: 112, sw: 162, sh: 14 },
   ball: { sx: 32, sy: 32, sw: 16, sh: 16 },
+  powerup: { sx: 96, sy: 112, sw: 16, sh: 16 },
+  projectile: { sx: 128, sy: 112, sw: 4, sh: 4 },
   blocks: {
     gray: { sx: 32, sy: 288, sw: 32, sh: 16 },
     red: { sx: 32, sy: 176, sw: 32, sh: 16 },

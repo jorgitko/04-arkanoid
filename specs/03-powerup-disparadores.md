@@ -1,6 +1,6 @@
 # SPEC 03 — Powerup Disparadores
 
-**Estado:** Draft
+**Estado:** Approved
 **Depende de:** SPEC 01, SPEC 02
 **Fecha:** 2026-09-17
 **Objetivo:** Implementar powerup temporal que equipa paddle con 2 disparadores que destruyen bloques.
