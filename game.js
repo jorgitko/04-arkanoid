@@ -34,7 +34,9 @@ const gameState = {
   score: 0,
   lives: 3,
   blocks: [],
-  currentLevel: 1
+  currentLevel: 1,
+  powerups: [],
+  projectiles: []
 };
 
 // Paddle
@@ -43,7 +45,10 @@ const paddle = {
   y: CANVAS_HEIGHT - 40,
   width: 120,
   height: 14,
-  speed: 6
+  speed: 6,
+  hasProjectiles: false,
+  projectileEndTime: 0,
+  projectileLastShot: 0
 };
 
 // Ball
@@ -115,6 +120,22 @@ function normalizeBallSpeed() {
     ball.vx = (ball.vx / magnitude) * ball.speed;
     ball.vy = (ball.vy / magnitude) * ball.speed;
   }
+}
+
+function spawnPowerup(x, y) {
+  if (gameState.powerups.length >= 1) return; // Máx 1 por nivel
+  
+  const powerup = {
+    x: x + 16, // Centrado en bloque (32/2)
+    y: y,
+    vx: 0,
+    vy: 2,
+    width: 16,
+    height: 16,
+    active: true
+  };
+  
+  gameState.powerups.push(powerup);
 }
 
 function checkAABB(a, b) {
@@ -223,6 +244,11 @@ function update() {
         });
 
         playSound('break');
+
+        // Spawn powerup (10% probabilidad, máx 1 por nivel)
+        if (Math.random() < 0.1 && gameState.powerups.length < 1) {
+          spawnPowerup(block.x, block.y);
+        }
 
         break;
       }
