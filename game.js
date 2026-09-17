@@ -282,6 +282,17 @@ function update() {
       explosions.splice(i, 1);
     }
   }
+
+  // Actualizar powerups
+  for (let i = gameState.powerups.length - 1; i >= 0; i--) {
+    const powerup = gameState.powerups[i];
+    powerup.y += powerup.vy;
+
+    // Eliminar si sale del canvas
+    if (powerup.y > CANVAS_HEIGHT + 16) {
+      gameState.powerups.splice(i, 1);
+    }
+  }
 }
 
 function render() {
