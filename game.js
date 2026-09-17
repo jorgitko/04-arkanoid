@@ -334,6 +334,15 @@ function update() {
       paddle.projectileLastShot = now;
     }
   }
+
+  // Actualizar projectiles
+  for (let i = gameState.projectiles.length - 1; i >= 0; i--) {
+    const projectile = gameState.projectiles[i];
+    projectile.y += projectile.vy;
+    if (projectile.y < 0) {
+      gameState.projectiles.splice(i, 1);
+    }
+  }
 }
 
 function render() {
