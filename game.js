@@ -306,6 +306,34 @@ function update() {
       gameState.powerups.splice(i, 1);
     }
   }
+
+  // Spawn projectiles cada 0.5s si disparadores activos
+  if (paddle.hasProjectiles) {
+    const now = performance.now();
+    if (now - paddle.projectileLastShot >= 500) {
+      // Projectile izquierdo
+      gameState.projectiles.push({
+        x: paddle.x + 10,
+        y: paddle.y - 10,
+        vx: 0,
+        vy: -6,
+        width: 4,
+        height: 4,
+        active: true
+      });
+      // Projectile derecho
+      gameState.projectiles.push({
+        x: paddle.x + paddle.width - 14,
+        y: paddle.y - 10,
+        vx: 0,
+        vy: -6,
+        width: 4,
+        height: 4,
+        active: true
+      });
+      paddle.projectileLastShot = now;
+    }
+  }
 }
 
 function render() {
